@@ -149,4 +149,48 @@ int main()
 	（）这个函数是无参
 */
 //代码2
+void (*signal(int, void(*)(int)))(int); 
+/*
+	void (*                      )(int)
+	(int, void(*)(int)) --> 第一个参数是int，第二个是void(*p)(int)
+	void(*)(int)   signal(int, void(*)(int) --> 	返回类型 void(*)(int)
+	void (*          signal(int, void(*)(int))           )(int)
+*/
+//简化
 void (*signal(int, void(*)(int)))(int);
+
+typedef unsigned int uint; //自定义函数名
+typedef void(* pfun_t )(int); 
+
+pfun_t signal(int, pfun_t);
+
+/*
+	signal是一个函数声明
+	signal函数的参数有2个，第一个是int。第二个函数指针，该函数指针指向的函数的参数是int，返回类型是void
+	signal函数的返回类型也是一个函数指针：该函数指针指向的函数的参数是int，返回类型是void
+*/
+
+
+int add(int x, int y)
+{
+	int z = 0;
+	z = x + y;
+	return z;
+}
+int main()
+{
+	int arr[10] = { 0 };
+	//arr的数组指针
+	int(*p)[10] = &arr;
+
+	//函数指针
+	int (*pa)(int, int) = add;
+	(pa)(2, 3); 
+	(*pa)(2, 3); //方便理解
+	(**pa)(2, 3);
+	add(2, 3);
+	pa(2, 3); //pa -> 函数的地址
+	*pa(2, 3); //err  pa会先与()结合  
+
+	return 0;
+}
